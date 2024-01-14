@@ -1,37 +1,46 @@
-# jamshid-role-pics
+# Jamshid Role Pics Api
 
+Simple Api that responses requests from jamshin main server to serve image of roles<br>
+with authentication of requested user per request
+
+### Built With
+* ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+* ![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)
+
+## Usage
 
 Method = GET
 
-api url = https://roles.api.jamshid.app
-api docs = https://roles.api.jamshid.app/docs
+api docs
+* https://roles.api.jamshid.app/docs
 
-usage:
+### request path
+```console
+https://roles.api.jamshid.app/roles/{game_id}/{role_id}
+```
 
-path : https://roles.api.jamshid.app/roles/{game_id}/{role_id}
-
-required header : token
-    pass jwt token
+### be sure to pass jwt token as "token" in headers
 
 
+## Deploy
 
-install python environment
+### 1. install python environment
 ```console
 sudo apt install python3.10-venv
 ```
-initialize environment
+### 2. initialize environment
 ```console
 python3 -m venv jamshidenv
 ```
-activate environment
+### 3. activate environment
 ```console
 source jamshidenv/bin/activate
 ```
-insatll project requirements
+### 4. install requirements
 ```console
 pip3 install -r requirements.txt
 ```
-run app
+### 5. run
 ```console
 uvicorn main:app --host 0.0.0.0 --port 3455
 ```
