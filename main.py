@@ -1,6 +1,8 @@
 from fastapi import FastAPI, HTTPException, Header
 from fastapi.responses import FileResponse
+from utils import process_image
 from pathlib import Path
+
 import requests
 
 app = FastAPI()
@@ -38,7 +40,7 @@ async def get_role_image(game_id: str, role_id: str, token: str = Header(...)):
     try:
         _, received_token = token.split()
     except Exception as err:
-        print("error: " + str(err))
+        return "Invalid Input: " + str(err)
 
     authentication = await is_valid_token(received_token)
     image_path = None
@@ -54,4 +56,4 @@ async def get_role_image(game_id: str, role_id: str, token: str = Header(...)):
             raise HTTPException(status_code=404, detail="Invalid Role id")
     else:
         raise HTTPException(status_code=401, detail="Invalid token")
-    return FileResponse(image_path)
+    return FileResponse(process_image(image_path, 50))
