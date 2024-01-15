@@ -1,4 +1,4 @@
-# Jamshid Role Pics Api
+# Jamshid Role & Last Move Pics Api
 
 Simple Api that responses requests from jamshin main server to serve image of roles<br>
 with authentication of requested user per request
@@ -14,12 +14,21 @@ Method = GET
 api docs
 * https://roles.api.jamshid.app/docs
 
-### request path
+### roles request path
 ```console
 https://roles.api.jamshid.app/roles/{game_id}/{role_id}
 ```
 
+### last move cards request path
+```console
+https://roles.api.jamshid.app/cards/{card_id}
+```
+
 ### be sure to pass jwt token as "token" in headers
+token example
+  ```console
+  Bearer <token>
+  ```
 
 
 ## Deploy
