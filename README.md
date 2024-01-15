@@ -1,6 +1,6 @@
 # Jamshid Role & Last Move Pics Api
 
-Simple Api that responses requests from jamshin main server to serve image of roles<br>
+Simple Api that responses requests from jamshid main server to serve image of roles<br>
 with authentication of requested user per request
 
 ### Built With
