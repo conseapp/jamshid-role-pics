@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException, Header
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from utils import process_image
 from pathlib import Path
@@ -6,6 +7,20 @@ from pathlib import Path
 import requests
 
 app = FastAPI()
+
+origins = [
+    "http://localhost",
+    "http://localhost:5173",
+    "https://jamshid.app"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 MODERN_GAME_ID = "1"
 CLASSIC_GAME_ID = "2"
@@ -54,6 +69,31 @@ async def get_role_image(game_id: str, role_id: str, token: str = Header(...)):
             raise HTTPException(status_code=404, detail="Invalid Game id")
         if not image_path.is_file():
             raise HTTPException(status_code=404, detail="Invalid Role id")
+    else:
+        raise HTTPException(status_code=401, detail="Invalid token")
+    return FileResponse(process_image(image_path, 50))
+
+
+@app.get("/cards/{card_id}")
+async def get_card_image(card_id: str, token: str = Header(...)):
+    """
+    :description: Get image of last move cards from jamshid main api when token is valid<br>
+    :param card_id: <br>
+    :param token: jwt token <br>
+    :return: image of last move card<br>
+    """
+
+    try:
+        _, received_token = token.split()
+    except Exception as err:
+        return "Invalid Input: " + str(err)
+
+    authentication = await is_valid_token(received_token)
+    image_path = None
+    if authentication is True:
+        image_path = Path(f'static/cards/{card_id}.jpg')
+        if not image_path.is_file():
+            raise HTTPException(status_code=404, detail="Invalid card id")
     else:
         raise HTTPException(status_code=401, detail="Invalid token")
     return FileResponse(process_image(image_path, 50))
